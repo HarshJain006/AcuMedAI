@@ -2,3 +2,5 @@ streamlit
 transformers>=4.25.0
 torch
 ollama
+vllm
+requests
