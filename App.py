@@ -3,7 +3,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 
 # Initialize Hugging Face model and tokenizer
-model_name = "your-huggingface-username/ollama-3.2-model"  # Use your model's Hugging Face path
+model_name = "Harshhp24/ollama-3.2-model"  # Use your model's Hugging Face path
 model = AutoModelForCausalLM.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
