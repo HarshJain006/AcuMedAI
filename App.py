@@ -1,11 +1,6 @@
 import streamlit as st
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
-
-# Initialize Hugging Face model and tokenizer
-model_name = "Harshhp24/ollama-3.2-model"  # Use your model's Hugging Face path
-model = AutoModelForCausalLM.from_pretrained(model_name)
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+import requests
+import json
 
 # Set up Streamlit page
 st.set_page_config(page_title="Local ChatGPT Clone", page_icon="🤖", layout="wide")
@@ -26,22 +21,30 @@ if prompt := st.chat_input("What's on your mind?"):
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Generate AI response using Hugging Face model
-    with st.chat_message("assistant"):
-        message_placeholder = st.empty()
-        full_response = ""
-        inputs = tokenizer(prompt, return_tensors="pt")
+    # Send the user prompt to vLLM server and get the response
+    response = requests.post(
+        "http://localhost:8000/v1/completions",
+        headers={"Content-Type": "application/json"},
+        data=json.dumps({
+            "model": "meta-llama/Llama-3.2-3B",
+            "prompt": prompt,
+            "max_tokens": 512,
+            "temperature": 0.5
+        })
+    )
 
-        # Generate response using the Hugging Face model
-        with torch.no_grad():
-            outputs = model.generate(inputs['input_ids'], max_length=200, num_return_sequences=1)
-            full_response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    # Get the response text
+    if response.status_code == 200:
+        response_text = response.json().get("choices")[0].get("text")
+        st.session_state.messages.append({"role": "assistant", "content": response_text})
 
-        message_placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+        with st.chat_message("assistant"):
+            st.markdown(response_text)
+    else:
+        st.error("Failed to get a response from the model. Please check the server.")
 
 # Add a sidebar with information
 st.sidebar.title("About")
-st.sidebar.info("This is a local ChatGPT clone using Hugging Face's Ollama 3.2 model and Streamlit.")
+st.sidebar.info("This is a local ChatGPT clone using Llama-3.2 model and Streamlit.")
 st.sidebar.markdown("---")
 st.sidebar.markdown("Made with ❤️ by Harsh Jain")
