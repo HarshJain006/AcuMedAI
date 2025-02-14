@@ -1,6 +1,13 @@
 streamlit
-transformers>=4.25.0
-torch
+tensorflow
+numpy
+matplotlib
+pillow
+pdfplumber
 ollama
-vllm
-requests
+whisper
+yt_dlp
+youtube_transcript_api
+frontend
+tools
+pymupdf
