@@ -1,4 +1,4 @@
-# **MANTHAN: AI-Powered Medical Knowledge Extractor**
+# **MANTHAN: AI-Powered Medical Knowledge Extractor (AcuMedAI)**
 
 ## 📌 **Project Overview**
 
