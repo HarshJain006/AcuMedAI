@@ -85,11 +85,6 @@ streamlit run app.py
 - 🗣️ **Voice-Enabled Chatbot** for hands-free medical assistance.
 - 🌍 **Multilingual Support** for non-English medical reports and videos.
 
-## 🤝 **Contributors**
-
-- **[Harsh Jain]** – AI Engineer & Developer
-- **Open Source Contributions** – Welcomed!
-
 ## 📜 **License**
 
 This project is **open-source** and available under the **MIT License**.
